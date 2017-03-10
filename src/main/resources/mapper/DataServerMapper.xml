@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bocom.dao.DataServerDao">
+<resultMap type="com.bocom.entity.DataServer" id="dataServer">
+<result property="id" column="id"/>
+<result property="serverName" column="serverName"/>
+<result property="description" column="description"/>
+<result property="ipAddr" column="ipAddr"/>
+<result property="port" column="port"/>
+<result property="loginName" column="loginName"/>
+<result property="loginPwd" column="loginPwd"/>
+<result property="netProtocol" column="netProtocol"/>
+<result property="instanceName" column="instanceName"/>
+<result property="sechemaName" column="sechemaName"/>
+<result property="implClassName" column="implClassName"/>
+<result property="admLevel" column="admLevel"/>
+<result property="areaType" column="areaType"/>
+<result property="areaTypeName" column="areaTypeName"/>
+<result property="status" column="status"/>
+<result property="lastOfflineTime" column="lastOfflineTime"/>
+<result property="dataType" column="dataType"/>
+<result property="createBy" column="createBy"/>
+<result property="createByName" column="createByName"/>
+<result property="createByOrg" column="createByOrg"/>
+<result property="createByOrgName" column="createByOrgName"/>
+<result property="createTime" column="createTime"/>
+<result property="remark" column="remark"/>
+
+</resultMap>
+<sql id="Base_t_data_server_List">
+s.id,s.serverName,description,ipAddr,port,loginName,loginPwd,netProtocol,
+instanceName,sechemaName,implClassName,admLevel,areaType,areaTypeName,status,lastOfflineTime,
+dataType,s.createBy,s.createByName,s.createByOrg,s.createByOrgName,s.createTime,s.remark
+</sql>
+
+<insert id="add" useGeneratedKeys="true" keyProperty="id">
+INSERT INTO t_data_server(serverName,description,ipAddr,port,loginName,loginPwd,netProtocol,instanceName,sechemaName,
+implClassName,admLevel,areaType,areaTypeName,status,lastOfflineTime,
+dataType,createBy,createByName,createByOrg,createByOrgName,createTime,remark)
+VALUES
+(#{serverName},#{description},#{ipAddr},#{port},#{loginName},#{loginPwd},#{netProtocol},#{instanceName},#{sechemaName},
+#{implClassName},#{admLevel},#{areaType},#{areaTypeName},#{status},#{lastOfflineTime},
+#{dataType},#{createBy},#{createByName},#{createByOrg},#{createByOrgName},#{createTime},#{remark})
+</insert>
+
+<insert id="addBatch" useGeneratedKeys="true" keyProperty="id">
+INSERT INTO t_data_server(serverName,description,ipAddr,port,loginName,loginPwd,netProtocol,instanceName,sechemaName,
+implClassName,admLevel,areaType,areaTypeName,status,lastOfflineTime,
+dataType,createBy,createByName,createByOrg,createByOrgName,createTime,remark)
+VALUES
+<foreach collection="list" item="item" index="index" separator=",">
+(#{item.serverName},#{item.description},#{item.ipAddr},#{item.port},#{item.loginName},#{item.loginPwd},#{item.netProtocol},#{item.instanceName},#{item.sechemaName},
+#{item.implClassName},#{item.admLevel},#{item.areaType},#{item.areaTypeName},#{item.status},#{item.lastOfflineTime},
+#{item.dataType},#{item.createBy},#{item.createByName},#{item.createByOrg},#{item.createByOrgName},#{item.createTime},#{item.remark})
+</foreach>
+</insert>
+
+<update id="update" parameterType="com.bocom.entity.DataServer" >
+UPDATE t_data_server
+SET 
+serverName=#{serverName,jdbcType=VARCHAR},
+description=#{description,jdbcType=VARCHAR},
+ipAddr=#{ipAddr,jdbcType=VARCHAR},
+port=#{port,jdbcType=VARCHAR},
+loginName=#{loginName,jdbcType=VARCHAR},
+loginPwd=#{loginPwd,jdbcType=VARCHAR},
+netProtocol=#{netProtocol,jdbcType=VARCHAR},
+instanceName=#{instanceName,jdbcType=VARCHAR},
+sechemaName=#{sechemaName,jdbcType=VARCHAR},
+implClassName=#{implClassName,jdbcType=VARCHAR},
+admLevel=#{admLevel,jdbcType=VARCHAR},
+lastOfflineTime=#{lastOfflineTime,jdbcType=TIMESTAMP},
+dataType=#{dataType,jdbcType=INTEGER}
+WHERE id=#{id,jdbcType=INTEGER}
+</update>
+
+<delete id="deleteBatch" parameterType="java.util.List">
+DELETE FROM t_data_server WHERE id IN
+<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+#{item}
+</foreach>
+</delete>
+
+<update id="updateMultiple" parameterType="java.util.Map" >
+UPDATE t_data_server
+<set>
+<if test="serverName != null">
+serverName=#{serverName,jdbcType=VARCHAR},
+</if>
+<if test="description != null">
+description=#{description,jdbcType=VARCHAR},
+</if>
+<if test="ipAddr != null">
+ipAddr=#{ipAddr,jdbcType=VARCHAR},
+</if>
+<if test="port != null">
+port=#{port,jdbcType=VARCHAR},
+</if>
+<if test="loginName != null">
+loginName=#{loginName,jdbcType=VARCHAR},
+</if>
+<if test="loginPwd != null">
+loginPwd=#{loginPwd,jdbcType=VARCHAR},
+</if>
+<if test="netProtocol != null">
+netProtocol=#{netProtocol,jdbcType=VARCHAR},
+</if>
+<if test="instanceName != null">
+instanceName=#{instanceName,jdbcType=VARCHAR},
+</if>
+<if test="sechemaName != null">
+sechemaName=#{sechemaName,jdbcType=VARCHAR},
+</if>
+<if test="implClassName != null">
+implClassName=#{implClassName,jdbcType=VARCHAR},
+</if>
+<if test="admLevel != null">
+admLevel=#{admLevel,jdbcType=VARCHAR},
+</if>
+<if test="areaType != null">
+areaType=#{areaType,jdbcType=INTEGER},
+</if>
+<if test="areaTypeName != null">
+areaTypeName=#{areaTypeName,jdbcType=VARCHAR},
+</if>
+<if test="status != null">
+status=#{status,jdbcType=INTEGER},
+</if>
+<if test="lastOfflineTime != null">
+lastOfflineTime=#{lastOfflineTime,jdbcType=TIMESTAMP},
+</if>
+<if test="dataType != null">
+dataType=#{dataType,jdbcType=INTEGER},
+</if>
+<if test="createBy != null">
+createBy=#{createBy,jdbcType=VARCHAR},
+</if>
+<if test="createByOrg != null">
+createByOrg=#{createByOrg,jdbcType=VARCHAR},
+</if>
+<if test="createTime != null">
+createTime=#{createTime,jdbcType=DATETIME},
+</if>
+<if test="remark != null">
+remark=#{remark,jdbcType=VARCHAR},
+</if>
+</set>
+WHERE id IN 
+<foreach item="item" collection="id" separator="," open="(" close=")" index="">
+#{item, jdbcType=INTEGER}  
+</foreach>
+</update>
+
+<select id="listDataByParam" parameterType="java.util.Map" resultMap="dataServer">
+SELECT DISTINCT
+<include refid="Base_t_data_server_List"/>
+FROM t_data_server as s left join t_server2table as st on(s.id=st.serverId)
+<where>
+<if test="commonParam != null">
+(
+(s.serverName like CONCAT('%','${commonParam}','%'))
+OR
+(s.instanceName like CONCAT('%','${commonParam}','%'))
+OR
+(description like CONCAT('%','${commonParam}','%'))
+OR
+(ipAddr like CONCAT('%','${commonParam}','%'))
+OR
+(loginName like CONCAT('%','${commonParam}','%'))
+)
+</if>
+<if test="id != null">
+s.id=#{id,jdbcType=VARCHAR}
+</if>
+<if test="serverName != null">
+s.serverName=#{serverName,jdbcType=VARCHAR}
+</if>
+<if test="description != null">
+AND description=#{description,jdbcType=VARCHAR}
+</if>
+<if test="ipAddr != null">
+AND ipAddr=#{ipAddr,jdbcType=VARCHAR}
+</if>
+<if test="port != null">
+AND port=#{port,jdbcType=VARCHAR}
+</if>
+<if test="loginName != null">
+AND loginName=#{loginName,jdbcType=VARCHAR}
+</if>
+<if test="loginPwd != null">
+AND loginPwd=#{loginPwd,jdbcType=VARCHAR}
+</if>
+<if test="netProtocol != null">
+AND netProtocol=#{netProtocol,jdbcType=VARCHAR}
+</if>
+<if test="instanceName != null">
+AND instanceName=#{instanceName,jdbcType=VARCHAR}
+</if>
+<if test="sechemaName != null">
+AND sechemaName=#{sechemaName,jdbcType=VARCHAR}
+</if>
+<if test="implClassName != null">
+AND implClassName=#{implClassName,jdbcType=VARCHAR}
+</if>
+<if test="admLevel != null">
+AND admLevel=#{admLevel,jdbcType=VARCHAR}
+</if>
+<if test="areaType != null">
+AND areaType=#{areaType,jdbcType=INTEGER}
+</if>
+<if test="areaTypeName != null">
+AND areaTypeName=#{areaTypeName,jdbcType=VARCHAR}
+</if>
+<if test="status != null">
+AND status=#{status,jdbcType=INTEGER}
+</if>
+<if test="lastOfflineTime != null">
+AND lastOfflineTime=#{lastOfflineTime,jdbcType=DATETIME}
+</if>
+<if test="dataType != null">
+AND dataType=#{dataType,jdbcType=INTEGER}
+</if>
+<if test="createBy != null">
+AND s.createBy=#{createBy,jdbcType=VARCHAR}
+</if>
+<if test="createByOrg != null">
+AND s.createByOrg=#{createByOrg,jdbcType=VARCHAR}
+</if>
+<if test="createTime != null">
+AND s.createTime=#{createTime,jdbcType=DATETIME}
+</if>
+<if test="remark != null">
+AND s.remark=#{remark,jdbcType=VARCHAR}
+</if>
+<if test="tableId != null">
+ AND tableId=#{tableId,jdbcType=VARCHAR}
+</if>
+<if test="idList != null">
+ AND s.id IN 
+<foreach item="item" collection="idList" separator="," open="(" close=")" index="">
+#{item, jdbcType=INTEGER}  
+</foreach>
+</if>
+</where>
+</select>
+
+<select id="queryById" parameterType="java.lang.String" resultMap="dataServer">
+SELECT
+<include refid="Base_t_data_server_List"/>
+FROM t_data_server as s
+WHERE id=#{id,jdbcType=INTEGER}
+</select>
+
+<select id="listDataByTableId" parameterType="java.util.List" resultMap="dataServer">
+SELECT DISTINCT s.id,s.ipAddr,s.port,s.loginName,s.loginPwd,s.instanceName,s.implClassName, GROUP_CONCAT(t.dataCount) remark,GROUP_CONCAT(st.tableId) createBy,GROUP_CONCAT(t.tableName) createByName
+FROM t_server2table st
+JOIN t_data_server s ON (st.serverId=s.id)
+JOIN t_data_table t ON (st.tableId=t.id)
+<where>
+<if test="_parameter != null">
+st.tableId IN 
+<foreach item="item" collection="list" separator="," open="(" close=")" index="">
+#{item, jdbcType=INTEGER}  
+</foreach>
+</if>
+</where>
+GROUP BY s.id,s.ipAddr,s.port,s.loginName,s.loginPwd,s.instanceName,s.implClassName
+</select>
+</mapper>

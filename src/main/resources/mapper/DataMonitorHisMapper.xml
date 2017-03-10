@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bocom.dao.DataMonitorHisDao">
+<resultMap type="com.bocom.entity.DataMonitorHis" id="data">
+<result property="id" column="id"/>
+<result property="refId" column="refId"/>
+<result property="refName" column="refName"/>
+<result property="beforeData" column="beforeData"/>
+<result property="afterData" column="afterData"/>
+<result property="monType" column="monType"/>
+<result property="category" column="category"/>
+<result property="createUser" column="createUser"/>
+<result property="createUserName" column="createUserName"/>
+<result property="createTime" column="createTime"/>
+<result property="remark" column="remark"/>
+</resultMap>
+<sql id="Base_Column_List">
+id,refId,refName,beforeData,afterData,monType,category,createUser,createUserName,createTime,remark
+</sql>
+
+<insert id="addBatch" useGeneratedKeys="true" keyProperty="id">
+INSERT INTO t_data_monitor_his(refId,refName,beforeData,afterData,monType,category,createUser,createUserName,createTime,remark)
+VALUES
+<foreach collection="list" item="item" index="index" separator="," >
+(#{item.refId},#{item.refName},#{item.beforeData},#{item.afterData},#{item.monType},#{item.category},#{item.createUser},#{item.createUserName},#{item.createTime},#{item.remark})
+</foreach>
+</insert>
+
+<select id="listDataByParam" parameterType="java.util.Map" resultMap="data">
+SELECT 
+<include refid="Base_Column_List"/>
+FROM t_data_monitor_his
+<where>
+<if test="refId != null">
+refId=#{refId,jdbcType=INTEGER}
+</if>
+<if test="refName != null">
+AND refName=#{refName,jdbcType=VARCHAR}
+</if>
+<if test="category != null">
+AND category=#{category,jdbcType=INTEGER}
+</if>
+<if test="monType != null">
+AND monType=#{monType,jdbcType=INTEGER}
+</if>
+<if test="createUserName != null">
+AND createUserName=#{createUserName,jdbcType=VARCHAR}
+</if>
+<if test="remark != null">
+AND remark=#{remark,jdbcType=VARCHAR}
+</if>
+</where>
+</select>
+</mapper>

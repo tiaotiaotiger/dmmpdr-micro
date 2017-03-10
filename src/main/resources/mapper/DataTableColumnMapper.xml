@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bocom.dao.DataTableColumnDao">
+<resultMap type="com.bocom.entity.DataTableColumn" id="dataTableColumn">
+<result property="id" column="id"/>
+<result property="tableId" column="tableId"/>
+<result property="columnName" column="columnName"/>
+<result property="definition" column="definition"/>
+<result property="description" column="description"/>
+<result property="createBy" column="createBy"/>
+<result property="createByOrg" column="createByOrg"/>
+<result property="createTime" column="createTime"/>
+<result property="remark" column="remark"/>
+</resultMap>
+<sql id="Base_t_table_column_List">
+id,tableId,columnName,definition,description,createBy,createByOrg,createTime,remark
+</sql>
+
+<insert id="add" useGeneratedKeys="true" keyProperty="id">
+INSERT INTO t_table_column(tableId,columnName,definition,description,createBy,createByOrg,createTime,remark)
+VALUES
+(#{tableId},#{columnName},#{definition},#{description},#{createBy},#{createByOrg},#{createTime},#{remark})
+</insert>
+
+<update id="update" parameterType="com.bocom.entity.DataTableColumn">
+UPDATE t_table_column
+<set>
+<if test="tableId != null">
+tableId=#{tableId,jdbcType=INTEGER},
+</if>
+<if test="columnName != null">
+columnName=#{columnName,jdbcType=VARCHAR},
+</if>
+<if test="definition != null">
+definition=#{definition,jdbcType=VARCHAR},
+</if>
+<if test="description != null">
+description=#{description,jdbcType=VARCHAR},
+</if>
+<if test="createBy != null">
+createBy=#{createBy,jdbcType=VARCHAR},
+</if>
+<if test="createByOrg != null">
+createByOrg=#{createByOrg,jdbcType=VARCHAR},
+</if>
+<if test="createTime != null">
+createTime=#{createTime,jdbcType=DATE},
+</if>
+<if test="remark != null">
+remark=#{remark,jdbcType=VARCHAR},
+</if>
+</set>
+WHERE id=#{id,jdbcType=INTEGER}
+</update>
+
+<delete id="deleteBatch" parameterType="java.util.List" >
+DELETE FROM t_table_column
+WHERE id IN
+<foreach item="item" collection="list" separator="," open="(" close=")" index="">
+#{item, jdbcType=INTEGER}  
+</foreach>
+</delete>
+
+<delete id="deleteBatchByTbId" parameterType="java.util.List" >
+DELETE FROM t_table_column
+WHERE tableId IN
+<foreach item="item" collection="list" separator="," open="(" close=")" index="">
+#{item, jdbcType=INTEGER}  
+</foreach>
+</delete>
+
+<update id="updateMultiple" parameterType="java.util.Map">
+UPDATE t_table_column
+<set>
+<if test="tableId != null">
+tableId=#{tableId,jdbcType=INTEGER},
+</if>
+<if test="columnName != null">
+columnName=#{columnName,jdbcType=VARCHAR},
+</if>
+<if test="definition != null">
+definition=#{definition,jdbcType=VARCHAR},
+</if>
+<if test="description != null">
+description=#{description,jdbcType=VARCHAR},
+</if>
+<if test="createBy != null">
+createBy=#{createBy,jdbcType=VARCHAR},
+</if>
+<if test="createByOrg != null">
+createByOrg=#{createByOrg,jdbcType=VARCHAR},
+</if>
+<if test="createTime != null">
+createTime=#{createTime,jdbcType=DATE},
+</if>
+<if test="remark != null">
+remark=#{remark,jdbcType=VARCHAR},
+</if>
+</set>
+WHERE id=#{id,jdbcType=INTEGER}
+</update>
+
+<select id="listDataByParam" parameterType="java.util.Map" resultMap="dataTableColumn">
+SELECT
+<include refid="Base_t_table_column_List"/>
+FROM t_table_column
+<where>
+<if test="tableId != null">
+tableId=#{tableId,jdbcType=INTEGER}
+</if>
+<if test="areaName != null">
+AND columnName=#{columnName,jdbcType=VARCHAR}
+</if>
+<if test="definition != null">
+AND definition=#{definition,jdbcType=VARCHAR}
+</if>
+<if test="description != null">
+AND description=#{description,jdbcType=VARCHAR}
+</if>
+<if test="createBy != null">
+AND createBy=#{createBy,jdbcType=VARCHAR}
+</if>
+<if test="createByOrg != null">
+AND createByOrg=#{createByOrg,jdbcType=VARCHAR}
+</if>
+<if test="createTime != null">
+AND createTime=#{createTime,jdbcType=DATETIME}
+</if>
+<if test="remark != null">
+AND remark=#{remark,jdbcType=VARCHAR}
+</if>
+</where>
+</select>
+
+<select id="queryById" parameterType="java.lang.String" resultMap="dataTableColumn">
+SELECT
+<include refid="Base_t_table_column_List"/>
+FROM t_table_column
+WHERE id=#{id,jdbcType=INTEGER}
+</select>
+
+<insert id="addBatch" useGeneratedKeys="true" keyProperty="id" >
+INSERT INTO t_table_column(tableId,columnName,definition,description,createBy,createByOrg,createTime,remark)
+VALUES
+<foreach collection="list" item="item" index="index" separator=",">
+(#{item.tableId},#{item.columnName},#{item.definition},#{item.description},#{item.createBy},#{item.createByOrg},#{item.createTime},#{item.remark})
+</foreach>
+</insert>
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bocom.dao.DataServer2TableDao">
+<resultMap type="com.bocom.entity.DataServer2Table" id="dataServer2Table">
+<result property="id" column="id"/>
+<result property="serverId" column="serverId"/>
+<result property="serverName" column="serverName"/>
+<result property="tableId" column="tableId"/>
+<result property="tableName" column="tableName"/>
+<result property="createBy" column="createBy"/>
+<result property="createByOrg" column="createByOrg"/>
+<result property="createTime" column="createTime"/>
+<result property="remark" column="remark"/>
+</resultMap>
+<sql id="Base_t_server2table_List">
+id,serverId,serverName,tableId,tableName,createBy,createByOrg,createTime,remark
+</sql>
+
+<insert id="addBatch" useGeneratedKeys="true" keyProperty="id">
+INSERT INTO t_server2table(serverId,serverName,tableId,tableName,createBy,createByOrg,createTime,remark)
+VALUES
+<foreach collection="list" item="item" index="index" separator="," >
+(#{item.serverId},#{item.serverName},#{item.tableId},#{item.tableName},#{item.createBy},#{item.createByOrg},#{item.createTime},#{item.remark})
+</foreach>
+</insert>
+
+<delete id="deleteBatch" parameterType="java.util.List" >
+DELETE FROM t_server2table WHERE id IN
+<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+#{item}
+</foreach>
+</delete>
+
+<delete id="deleteByRefId" parameterType="java.util.Map">
+DELETE FROM t_server2table 
+<where>
+<if test="serverId != null">
+	serverId=#{serverId,jdbcType=VARCHAR}
+</if>
+<if test="tableId != null">
+	AND tableId=#{tableId,jdbcType=VARCHAR}
+</if>
+</where>
+</delete>
+
+<select id="listDataByParam" parameterType="java.util.Map" resultMap="dataServer2Table">
+SELECT 
+<include refid="Base_t_server2table_List"/>
+FROM t_server2table
+<where>
+<if test="serverId != null">
+serverId=#{serverId,jdbcType=INTEGER}
+</if>
+<if test="serverName != null">
+AND serverName=#{serverName,jdbcType=VARCHAR}
+</if>
+<if test="tableId != null">
+AND tableId=#{tableId,jdbcType=INTEGER}
+</if>
+<if test="tableName != null">
+AND tableName=#{tableName,jdbcType=VARCHAR}
+</if>
+<if test="createBy != null">
+AND createBy=#{createBy,jdbcType=VARCHAR}
+</if>
+<if test="createByOrg != null">
+AND createByOrg=#{createByOrg,jdbcType=VARCHAR}
+</if>
+<if test="createTime != null">
+AND createTime=#{createTime,jdbcType=DATETIME}
+</if>
+<if test="remark != null">
+AND remark=#{remark,jdbcType=VARCHAR}
+</if>
+<if test="serverIdList != null">
+AND serverId IN 
+<foreach item="item" collection="serverIdList" separator="," open="(" close=")" index="">
+#{item, jdbcType=INTEGER}  
+</foreach>
+</if>
+</where>
+</select>
+
+<select id="selectServerIdBytableId" parameterType="java.lang.String" resultMap="dataServer2Table">
+select serverId from t_server2table
+WHERE tableId=#{tableId,jdbcType=INTEGER}
+</select>
+</mapper>

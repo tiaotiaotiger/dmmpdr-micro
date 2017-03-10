@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bocom.dao.DataTableDao">
+<resultMap type="com.bocom.entity.DataTable" id="dataTable">
+<result property="id" column="id"/>
+<result property="dataName" column="dataName"/>
+<result property="tableName" column="tableName"/>
+<result property="dataCount" column="dataCount"/>
+<result property="dataOrg" column="dataOrg"/>
+<result property="status" column="status"/>
+<result property="admLevel" column="admLevel"/>
+<result property="importantLevel" column="importantLevel"/>
+<result property="areaType" column="areaType"/>
+<result property="areaTypeName" column="areaTypeName"/>
+<result property="createBy" column="createBy"/>
+<result property="createByName" column="createByName"/>
+<result property="createByOrg" column="createByOrg"/>
+<result property="createByOrgName" column="createByOrgName"/>
+<result property="createTime" column="createTime"/>
+<result property="abolishBy" column="abolishBy"/>
+<result property="abolishByOrg" column="abolishByOrg"/>
+<result property="abolishTime" column="abolishTime"/>
+<result property="remark" column="remark"/>
+</resultMap>
+<sql id="Base_t_data_table_List">
+t.id,dataName,t.tableName,dataCount,dataOrg,status,admLevel,importantLevel,
+areaType,areaTypeName,t.createBy,t.createByName,t.createByOrg,t.createByOrgName,t.createTime,abolishBy,abolishByOrg,
+abolishTime,t.remark
+</sql>
+<insert id="add" useGeneratedKeys="true" keyProperty="id">
+INSERT INTO t_data_table(dataName,tableName,dataCount,dataOrg,status,admLevel,importantLevel,
+areaType,areaTypeName,createBy,createByName,createByOrg,createByOrgName,createTime,abolishBy,abolishByOrg,
+abolishTime,remark)
+VALUES
+(#{dataName},#{tableName},#{dataCount},#{dataOrg},#{status},#{admLevel},#{importantLevel},
+#{areaType},#{areaTypeName},#{createBy},#{createByName},#{createByOrg},#{createByOrgName},#{createTime},#{abolishBy},#{abolishByOrg},
+#{abolishTime},#{remark})
+</insert>
+
+<update id="update" parameterType="com.bocom.entity.DataTable">
+UPDATE t_data_table
+<set>
+<if test="dataName != null">
+dataName=#{dataName,jdbcType=VARCHAR},
+</if>
+<if test="tableName != null">
+tableName=#{tableName,jdbcType=VARCHAR},
+</if>
+<if test="dataCount != null">
+dataCount=#{dataCount,jdbcType=VARCHAR},
+</if>
+<if test="dataOrg != null">
+dataOrg=#{dataOrg,jdbcType=VARCHAR},
+</if>
+<if test="status != null">
+status=#{status,jdbcType=VARCHAR},
+</if>
+<if test="admLevel != null">
+admLevel=#{admLevel,jdbcType=VARCHAR},
+</if>
+<if test="importantLevel != null">
+importantLevel=#{importantLevel,jdbcType=VARCHAR},
+</if>
+<if test="areaType != null">
+areaType=#{areaType,jdbcType=VARCHAR},
+</if>
+<if test="areaTypeName != null">
+areaTypeName=#{areaTypeName,jdbcType=VARCHAR},
+</if>
+<if test="createBy != null">
+createBy=#{createBy,jdbcType=VARCHAR},
+</if>
+<if test="createByName != null">
+createByName=#{createByName,jdbcType=VARCHAR},
+</if>
+<if test="createByOrg != null">
+createByOrg=#{createByOrg,jdbcType=VARCHAR},
+</if>
+<if test="createByOrgName != null">
+createByOrgName=#{createByOrgName,jdbcType=VARCHAR},
+</if>
+<if test="createTime != null">
+createTime=#{createTime,jdbcType=DATE},
+</if>
+<if test="abolishBy != null">
+abolishBy=#{abolishBy,jdbcType=VARCHAR},
+</if>
+<if test="abolishByOrg != null">
+abolishByOrg=#{abolishByOrg,jdbcType=VARCHAR},
+</if>
+<if test="abolishTime != null">
+abolishTime=#{abolishTime,jdbcType=DATE},
+</if>
+<if test="remark != null">
+remark=#{remark,jdbcType=VARCHAR},
+</if>
+</set>
+WHERE id=#{id,jdbcType=INTEGER}
+</update>
+
+<delete id="deleteBatch" parameterType="java.util.List">
+DELETE FROM t_data_table WHERE id IN
+<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+#{item}
+</foreach>
+</delete>
+
+<update id="updateMultiple" parameterType="java.util.Map">
+UPDATE t_data_table
+<set>
+<if test="dataName != null">
+dataName=#{dataName,jdbcType=VARCHAR},
+</if>
+<if test="tableName != null">
+tableName=#{tableName,jdbcType=VARCHAR},
+</if>
+<if test="dataCount != null">
+dataCount=#{dataCount,jdbcType=VARCHAR},
+</if>
+<if test="dataOrg != null">
+dataOrg=#{dataOrg,jdbcType=VARCHAR},
+</if>
+<if test="status != null">
+status=#{status,jdbcType=VARCHAR},
+</if>
+<if test="admLevel != null">
+admLevel=#{admLevel,jdbcType=VARCHAR},
+</if>
+<if test="importantLevel != null">
+importantLevel=#{importantLevel,jdbcType=VARCHAR},
+</if>
+<if test="areaType != null">
+areaType=#{areaType,jdbcType=VARCHAR},
+</if>
+<if test="areaTypeName != null">
+areaTypeName=#{areaTypeName,jdbcType=VARCHAR},
+</if>
+<if test="createBy != null">
+createBy=#{createBy,jdbcType=VARCHAR},
+</if>
+<if test="createByOrg != null">
+createByOrg=#{createByOrg,jdbcType=VARCHAR},
+</if>
+<if test="createTime != null">
+createTime=#{createTime,jdbcType=TIMESTAMP},
+</if>
+<if test="abolishBy != null">
+abolishBy=#{abolishBy,jdbcType=VARCHAR},
+</if>
+<if test="abolishByOrg != null">
+abolishByOrg=#{abolishByOrg,jdbcType=VARCHAR},
+</if>
+<if test="abolishTime != null">
+abolishTime=#{abolishTime,jdbcType=TIMESTAMP},
+</if>
+<if test="remark != null">
+remark=#{remark,jdbcType=VARCHAR},
+</if>
+</set>
+WHERE id IN 
+<foreach item="item" collection="id" separator="," open="(" close=")" index="">
+#{item, jdbcType=INTEGER}  
+</foreach>
+</update>
+
+<select id="listDataByParam" parameterType="java.util.Map" resultMap="dataTable">
+SELECT DISTINCT
+<include refid="Base_t_data_table_List"/>
+FROM t_data_table as t left join t_server2table as st on(t.id=st.tableId)
+<where>
+<if test="commonParam != null">
+(
+(dataName like CONCAT('%','${commonParam}','%'))
+OR
+(t.tableName like CONCAT('%','${commonParam}','%'))
+OR
+(dataOrg like CONCAT('%','${commonParam}','%'))
+OR
+(admLevel like CONCAT('%','${commonParam}','%'))
+)
+</if>
+<if test="dataName != null">
+dataName=#{dataName,jdbcType=VARCHAR}
+</if>
+<if test="tableName != null">
+AND t.tableName=#{tableName,jdbcType=VARCHAR}
+</if>
+<if test="dataCount != null">
+AND dataCount=#{dataCount,jdbcType=VARCHAR}
+</if>
+<if test="dataOrg != null">
+<choose>
+<when test="dataOrg==-1">
+AND (dataOrg is null or LENGTH(dataOrg)=0)
+</when>
+<otherwise>
+AND dataOrg=#{dataOrg,jdbcType=VARCHAR}
+</otherwise>
+</choose>
+</if>
+<if test="status != null">
+AND status=#{status,jdbcType=VARCHAR}
+</if>
+<if test="admLevel != null">
+AND admLevel=#{admLevel,jdbcType=VARCHAR}
+</if>
+<if test="importantLevel != null">
+AND importantLevel=#{importantLevel,jdbcType=VARCHAR}
+</if>
+<if test="areaType != null">
+AND areaType=#{areaType,jdbcType=VARCHAR}
+</if>
+<if test="areaTypeName != null">
+AND areaTypeName=#{areaTypeName,jdbcType=VARCHAR}
+</if>
+<if test="createBy != null">
+AND t.createBy=#{createBy,jdbcType=VARCHAR}
+</if>
+<if test="createByOrg != null">
+AND t.createByOrg=#{createByOrg,jdbcType=VARCHAR}
+</if>
+<if test="createTime != null">
+AND t.createTime=#{createTime,jdbcType=DATETIME}
+</if>
+<if test="abolishBy != null">
+AND abolishBy=#{abolishBy,jdbcType=VARCHAR}
+</if>
+<if test="abolishByOrg != null">
+AND abolishByOrg=#{abolishByOrg,jdbcType=VARCHAR}
+</if>
+<if test="abolishTime != null">
+AND abolishTime=#{abolishTime,jdbcType=DATETIME}
+</if>
+<if test="remark != null">
+AND t.remark=#{remark,jdbcType=VARCHAR}
+</if>
+<if test="tableIdList != null">
+AND t.id IN 
+<foreach item="item" collection="tableIdList" separator="," open="(" close=")" index="">
+#{item, jdbcType=INTEGER}  
+</foreach>
+</if>
+<if test="serverId != null">
+ AND serverId=#{serverId,jdbcType=VARCHAR}
+</if>
+</where>
+</select>
+
+<select id="queryById" parameterType="java.lang.String" resultMap="dataTable">
+SELECT
+<include refid="Base_t_data_table_List"/>
+FROM t_data_table as t
+WHERE id=#{id,jdbcType=INTEGER}
+</select>
+
+<insert id="addBatch" useGeneratedKeys="true" keyProperty="id">
+
+INSERT INTO t_data_table(dataName,tableName,dataCount,dataOrg,status,admLevel,importantLevel,
+areaType,areaTypeName,createBy,createByName,createByOrg,createByOrgName,createTime,abolishBy,abolishByOrg,
+abolishTime,remark)
+VALUES
+<foreach collection="list" item="item" index="index" separator=",">
+(#{item.dataName},#{item.tableName},#{item.dataCount},#{item.dataOrg},#{item.status},#{item.admLevel},#{item.importantLevel},
+#{item.areaType},#{item.areaTypeName},#{item.createBy},#{item.createByName},#{item.createByOrg},#{item.createByOrgName},#{item.createTime},#{item.abolishBy},#{item.abolishByOrg},
+#{item.abolishTime},#{item.remark})
+</foreach>
+</insert>
+
+<update id="updataDataCount" parameterType="java.util.Map">
+UPDATE t_data_table SET dataCount=#{dataCount,jdbcType=VARCHAR}
+WHERE tableName=#{tableName,jdbcType=VARCHAR}
+</update>
+</mapper>
