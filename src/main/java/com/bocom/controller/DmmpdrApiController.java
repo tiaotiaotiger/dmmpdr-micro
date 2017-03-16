@@ -33,6 +33,7 @@ import com.bocom.service.DataAreaTypeService;
 import com.bocom.service.DataMonitorService;
 import com.bocom.service.DataServerService;
 import com.bocom.service.DeleteServerAndTableService;
+import com.bocom.util.JsonUtil;
 import com.bocom.util.ResponseUtil;
 
 /**
@@ -43,7 +44,6 @@ import com.bocom.util.ResponseUtil;
  * @since    JDK 1.7
  */
 @RestController
-@RequestMapping("/dmmpdr/api")
 @SuppressWarnings("all")
 public class DmmpdrApiController {
 	private static Logger LOG = LoggerFactory
@@ -64,6 +64,10 @@ public class DmmpdrApiController {
 	@ResponseBody
 	public String addServer(@RequestBody List<DataServer> list,
 			HttpSession session) {
+		String methodName = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+		LOG.info("Enter Method {}, param [list] is {}", methodName,
+				null == list ? null : JsonUtil.toJSon(list));
 		int[] returnVal = null;
 		try {
 			if (null != list && list.size() > 0) {
@@ -90,15 +94,17 @@ public class DmmpdrApiController {
 						server.setAreaType(areas.get(0).getId());
 						server.setAreaTypeName(areas.get(0).getAreaName());
 					}
-					server.setStatus(DataServerStatusEnum.OFFLINE.getCode().toString());
+					server.setStatus(DataServerStatusEnum.OFFLINE.getCode()
+							.toString());
 					server.setCreateTime(date);
 				}
 				returnVal = dataServerService.addBatch(list);
 			}
 		} catch (Exception e) {
-			LOG.error("DmmpdrApiController[addServer] ERROR", e);
+			LOG.error("Handle Method {} error", methodName, e);
 			return ResponseUtil.fail(e.getMessage());
 		}
+		LOG.info("Exit Method {} success.", methodName);
 		return ResponseUtil.success(returnVal);
 	}
 
@@ -109,6 +115,10 @@ public class DmmpdrApiController {
 	@ResponseBody
 	public String queryServer(@RequestBody QueryServerDto dto,
 			HttpSession session) {
+		String methodName = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+		LOG.info("Enter Method {}, param [dto] is {}", methodName,
+				null == dto ? null : JsonUtil.toJSon(dto));
 		List<QueryServerRespDto> dataList = null;
 		try {
 			Map<String, Object> param = new HashMap<String, Object>();
@@ -127,9 +137,10 @@ public class DmmpdrApiController {
 				}
 			}
 		} catch (Exception e) {
-			LOG.error("DmmpdrApiController[queryServer] ERROR", e);
+			LOG.error("Handle Method {} error", methodName, e);
 			return ResponseUtil.fail(e.getMessage());
 		}
+		LOG.info("Exit Method {} success.", methodName);
 		return ResponseUtil.success(dataList);
 	}
 
@@ -138,21 +149,25 @@ public class DmmpdrApiController {
 	 */
 	@RequestMapping(value = "/server/syncTableNColumn", method = { RequestMethod.POST })
 	@ResponseBody
-	public String syncTableNColumn(String id, HttpSession session) {
+	public String syncTableNColumn(String serverId, HttpSession session) {
+		String methodName = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+		LOG.info("Enter Method {}, param [serverId] is {}", methodName, serverId);
 		int result = 0;
 		try {
-			if (StringUtils.isNotEmpty(id)) {
+			if (StringUtils.isNotEmpty(serverId)) {
 				Map<String, Object> param = new HashMap<String, Object>();
-				param.put("id", id);
+				param.put("id", serverId);
 				List<DataServer> list = dataServerService
 						.listDataByParam(param);
 				dataMonitorService.updateTableNColumn(list);
 				result = list.size();
 			}
 		} catch (Exception e) {
-			LOG.error("DmmpdrApiController[syncTableNColumn] ERROR", e);
+			LOG.error("Handle Method {} error", methodName, e);
 			return ResponseUtil.fail(e.getMessage());
 		}
+		LOG.info("Exit Method {} success.", methodName);
 		return ResponseUtil.success(result);
 	}
 
@@ -161,20 +176,24 @@ public class DmmpdrApiController {
 	 */
 	@RequestMapping(value = "/server/syncServerStatus", method = { RequestMethod.POST })
 	@ResponseBody
-	public String syncServerStatus(String id, HttpSession session) {
+	public String syncServerStatus(String serverId, HttpSession session) {
+		String methodName = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+		LOG.info("Enter Method {}, param [serverId] is {}", methodName, serverId);
 		int result = 0;
 		try {
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("id", id);
+			param.put("id", serverId);
 			List<DataServer> list = dataServerService.listDataByParam(param);
 			Map<String, Object> ssParam = new HashMap<String, Object>();
 			ssParam.put("category", DataMonitorCategoyEnum.AUTOMATIC.getCode());
 			dataMonitorService.updateServerStatus(list, ssParam);
 			result = list.size();
 		} catch (Exception e) {
-			LOG.error("DmmpdrApiController[syncServerStatus] ERROR", e);
+			LOG.error("Handle Method {} error", methodName, e);
 			return ResponseUtil.fail(e.getMessage());
 		}
+		LOG.info("Exit Method {} success.", methodName);
 		return ResponseUtil.success(result);
 	}
 
@@ -184,6 +203,9 @@ public class DmmpdrApiController {
 	@RequestMapping(value = "/server/syncTableCount", method = { RequestMethod.POST })
 	@ResponseBody
 	public String syncTableCount(String tableId, HttpSession session) {
+		String methodName = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+		LOG.info("Enter Method {}, param [tableId] is {}", methodName, tableId);
 		int result = 0;
 		try {
 			if (StringUtils.isNotEmpty(tableId)) {
@@ -194,28 +216,35 @@ public class DmmpdrApiController {
 				dataMonitorService.updateTableCount(param);
 			}
 		} catch (Exception e) {
-			LOG.error("DmmpdrApiController[syncServerStatus] ERROR", e);
+			LOG.error("Handle Method {} error", methodName, e);
 			return ResponseUtil.fail(e.getMessage());
 		}
+		LOG.info("Exit Method {} success.", methodName);
 		return ResponseUtil.success(1);
 	}
-	
+
 	/**
 	 * 删除对应的server及server下表及表下字段的接口
+	 * @author liuyunfeng
 	 */
 	@RequestMapping(value = "/server/delete", method = { RequestMethod.POST })
 	@ResponseBody
 	public String delete(@RequestBody String serverId, HttpSession session) {
+		String methodName = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+		LOG.info("Enter Method {}, param [serverId] is {}", methodName,
+				serverId);
 		int result = 0;
 		try {
 			if (StringUtils.isNotEmpty(serverId)) {
-				int count=deleteServerAndTableService.delete(serverId);
-				result=count;
+				int count = deleteServerAndTableService.delete(serverId);
+				result = count;
 			}
 		} catch (Exception e) {
-			LOG.error("DmmpdrApiController[syncServerStatus] ERROR", e);
+			LOG.error("Handle Method {} error", methodName, e);
 			return ResponseUtil.fail(e.getMessage());
 		}
+		LOG.info("Exit Method {} success.", methodName);
 		return ResponseUtil.success(result);
 	}
 }
