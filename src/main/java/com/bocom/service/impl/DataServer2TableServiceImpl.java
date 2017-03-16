@@ -34,5 +34,10 @@ public class DataServer2TableServiceImpl implements DataServer2TableService {
 	public int deleteByRefId(Map<String, Object> param) {
 		return dataServer2TableDao.deleteByRefId(param);
 	}
-
+	
+	@Override
+	public List<DataServer2Table> selectTableIdByServerId(String serverId) {
+		
+		return dataServer2TableDao.selectTableIdByServerId(serverId);
+	}
 }

@@ -60,4 +60,9 @@ public class DataServerServiceImpl implements DataServerService {
 	public List<DataServer> listDataByTableId(List<String> tableId) {
 		return dataServerDao.listDataByTableId(tableId);
 	}
+	
+	@Override
+	public int deleteBatch(List<String> id) {
+		return dataServerDao.deleteBatch(id);
+	}
 }

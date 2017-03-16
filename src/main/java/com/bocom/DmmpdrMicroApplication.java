@@ -3,7 +3,6 @@ package com.bocom;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.log4j.Logger;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -20,13 +19,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
-import com.netflix.discovery.shared.Application;
 
 @SpringBootApplication
 @EnableDiscoveryClient
 @MapperScan("com.bocom.dao")
 public class DmmpdrMicroApplication {
-	private static Logger logger = Logger.getLogger(Application.class);
 
 	// DataSource配置
 	@Bean

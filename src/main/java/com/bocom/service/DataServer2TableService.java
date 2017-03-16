@@ -22,5 +22,7 @@ public interface DataServer2TableService {
 	public int deleteByRefId(Map<String, Object> param);
 
 	public List<DataServer2Table> listDataByParam(Map<String, Object> param);
+	
+	public List<DataServer2Table> selectTableIdByServerId(String serverId);
 
 }

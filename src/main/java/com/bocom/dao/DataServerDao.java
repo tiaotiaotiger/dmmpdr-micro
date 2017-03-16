@@ -8,6 +8,8 @@ import com.bocom.entity.DataServer;
 public interface DataServerDao {
 
 	public int addBatch(List<DataServer> data);
+	
+	public int deleteBatch(List<String> id);
 
 	public int updateMultiple(Map<String, Object> param);
 

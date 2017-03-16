@@ -21,4 +21,6 @@ public interface DataServerService {
 	public List<DataServer> listDataByParam(Map<String, Object> param);
 
 	public List<DataServer> listDataByTableId(List<String> tableId);
+	
+	public int deleteBatch(List<String> id);
 }

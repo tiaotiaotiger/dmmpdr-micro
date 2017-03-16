@@ -32,6 +32,7 @@ import com.bocom.enums.DataServerTypeEnum;
 import com.bocom.service.DataAreaTypeService;
 import com.bocom.service.DataMonitorService;
 import com.bocom.service.DataServerService;
+import com.bocom.service.DeleteServerAndTableService;
 import com.bocom.util.ResponseUtil;
 
 /**
@@ -53,6 +54,8 @@ public class DmmpdrApiController {
 	private DataAreaTypeService dataAreaTypeService;
 	@Autowired
 	private DataMonitorService dataMonitorService;
+	@Autowired
+	private DeleteServerAndTableService deleteServerAndTableService;
 
 	/**
 	 * 添服务器信息
@@ -195,5 +198,24 @@ public class DmmpdrApiController {
 			return ResponseUtil.fail(e.getMessage());
 		}
 		return ResponseUtil.success(1);
+	}
+	
+	/**
+	 * 删除对应的server及server下表及表下字段的接口
+	 */
+	@RequestMapping(value = "/server/delete", method = { RequestMethod.POST })
+	@ResponseBody
+	public String delete(@RequestBody String serverId, HttpSession session) {
+		int result = 0;
+		try {
+			if (StringUtils.isNotEmpty(serverId)) {
+				int count=deleteServerAndTableService.delete(serverId);
+				result=count;
+			}
+		} catch (Exception e) {
+			LOG.error("DmmpdrApiController[syncServerStatus] ERROR", e);
+			return ResponseUtil.fail(e.getMessage());
+		}
+		return ResponseUtil.success(result);
 	}
 }

@@ -87,4 +87,9 @@ AND serverId IN
 select serverId from t_server2table
 WHERE tableId=#{tableId,jdbcType=INTEGER}
 </select>
+
+<select id="selectTableIdByServerId" parameterType="java.lang.String" resultMap="dataServer2Table">
+select tableId from t_server2table
+WHERE serverId=#{serverId,jdbcType=INTEGER}
+</select>
 </mapper>

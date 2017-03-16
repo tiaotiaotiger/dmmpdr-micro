@@ -15,4 +15,6 @@ public interface DataServer2TableDao {
 	public List<DataServer2Table> listDataByParam(Map<String, Object> param);
 	
 	public List<DataServer2Table> selectServerIdBytableId(String tableIds);
+	
+	public List<DataServer2Table> selectTableIdByServerId(String serverId);
 }
