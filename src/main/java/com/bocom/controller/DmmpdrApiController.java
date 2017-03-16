@@ -111,7 +111,7 @@ public class DmmpdrApiController {
 	/**
 	 * 应用注册信息查询
 	 */
-	@PostMapping("/server/queryServer")
+	@RequestMapping(value = "/server/queryServer", method = { RequestMethod.POST })
 	@ResponseBody
 	public String queryServer(@RequestBody QueryServerDto dto,
 			HttpSession session) {
