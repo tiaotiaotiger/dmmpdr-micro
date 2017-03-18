@@ -233,7 +233,7 @@ public class DmmpdrApiController {
 	 * 删除对应的server及server下表及表下字段的接口
 	 * @author liuyunfeng
 	 */
-	@ApiOperation(value="删除数据资源服务器及其下表、表字段", notes="数据资源服务器Id删除该服务器及其下表、表字段")
+	@ApiOperation(value="删除数据资源服务器及其下表、表字段", notes="根据数据资源服务器Id删除该服务器及其下表、表字段")
 	@RequestMapping(value = "/server/delete", method = { RequestMethod.POST })
 	@ResponseBody
 	public String delete(@RequestBody String serverId, HttpSession session) {
