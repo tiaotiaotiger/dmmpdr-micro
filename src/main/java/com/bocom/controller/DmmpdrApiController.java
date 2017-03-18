@@ -61,7 +61,7 @@ public class DmmpdrApiController {
 	/**
 	 * 添服务器信息
 	 */
-	@ApiOperation(value="添数据资源服务器信息", notes="根据参数list添加数据资源服务器信息")
+	@ApiOperation(value = "添数据资源服务器信息", notes = "根据参数list添加数据资源服务器信息")
 	@RequestMapping(value = "/server/addServer", method = { RequestMethod.POST })
 	@ResponseBody
 	public String addServer(@RequestBody List<DataServer> list,
@@ -113,7 +113,7 @@ public class DmmpdrApiController {
 	/**
 	 * 获取资源目录信息
 	 */
-	@ApiOperation(value="获取数据资源服务器信息", notes="根据instanceName获取数据资源服务器信息")
+	@ApiOperation(value = "获取数据资源服务器信息", notes = "根据instanceName获取数据资源服务器信息")
 	@RequestMapping(value = "/server/queryServer", method = { RequestMethod.POST })
 	@ResponseBody
 	public String queryServer(@RequestBody QueryServerDto dto,
@@ -148,15 +148,50 @@ public class DmmpdrApiController {
 	}
 
 	/**
+	 * 获取资源目录信息
+	 */
+	@ApiOperation(value = "根据数据资源服务器ID获取服务器信息", notes = "根据数据资源服务器ID获取服务器信息")
+	@RequestMapping(value = "/server/queryServerById", method = { RequestMethod.GET })
+	@ResponseBody
+	public String queryServerById(String serverId, HttpSession session) {
+		String methodName = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+		LOG.info("Enter Method {}, param [serverId] is {}", methodName,
+				serverId);
+		List<QueryServerRespDto> dataList = null;
+		try {
+			Map<String, Object> param = new HashMap<String, Object>();
+			if (StringUtils.isNotEmpty(serverId)) {
+				param.put("id", serverId);
+			}
+			List<DataServer> list = dataServerService.listDataByParam(param);
+			if (null != list && list.size() > 0) {
+				dataList = new ArrayList<QueryServerRespDto>();
+				for (DataServer server : list) {
+					QueryServerRespDto respData = new QueryServerRespDto();
+					BeanUtils.copyProperties(server, respData);
+					dataList.add(respData);
+				}
+			}
+		} catch (Exception e) {
+			LOG.error("Handle Method {} error", methodName, e);
+			return ResponseUtil.fail(e.getMessage());
+		}
+		LOG.info("Exit Method {} success.", methodName);
+		return ResponseUtil.success(dataList);
+	}
+
+	/**
 	 * 数据资源服务器更新表、数据量及字段
 	 */
-	@ApiOperation(value="更新数据资源表、表数据量及字段", notes="更新数据资源表、表数据量及字段")
+	@ApiOperation(value = "更新数据资源表、表数据量及字段", notes = "更新数据资源表、表数据量及字段")
 	@RequestMapping(value = "/server/syncTableNColumn", method = { RequestMethod.POST })
 	@ResponseBody
 	public String syncTableNColumn(String serverId, HttpSession session) {
 		String methodName = Thread.currentThread().getStackTrace()[1]
 				.getMethodName();
-		LOG.info("Enter Method {}, param [serverId] is {}", methodName, serverId);
+		LOG.info("Enter Method {}, param [serverId] is {}", methodName,
+				serverId);
 		int result = 0;
 		try {
 			if (StringUtils.isNotEmpty(serverId)) {
@@ -178,13 +213,14 @@ public class DmmpdrApiController {
 	/**
 	 * 数据资源服务器状态
 	 */
-	@ApiOperation(value="更新数据资源服务器状态", notes="根据数据资源服务器Id更新数据资源服务器状态")
+	@ApiOperation(value = "更新数据资源服务器状态", notes = "根据数据资源服务器Id更新数据资源服务器状态")
 	@RequestMapping(value = "/server/syncServerStatus", method = { RequestMethod.POST })
 	@ResponseBody
 	public String syncServerStatus(String serverId, HttpSession session) {
 		String methodName = Thread.currentThread().getStackTrace()[1]
 				.getMethodName();
-		LOG.info("Enter Method {}, param [serverId] is {}", methodName, serverId);
+		LOG.info("Enter Method {}, param [serverId] is {}", methodName,
+				serverId);
 		int result = 0;
 		try {
 			Map<String, Object> param = new HashMap<String, Object>();
@@ -205,7 +241,7 @@ public class DmmpdrApiController {
 	/**
 	 * 数据表数据量更新
 	 */
-	@ApiOperation(value="更新数据资源表数据量", notes="根据数据资源表Id更新数据资源表数据量")
+	@ApiOperation(value = "更新数据资源表数据量", notes = "根据数据资源表Id更新数据资源表数据量")
 	@RequestMapping(value = "/server/syncTableCount", method = { RequestMethod.POST })
 	@ResponseBody
 	public String syncTableCount(String tableId, HttpSession session) {
@@ -233,7 +269,7 @@ public class DmmpdrApiController {
 	 * 删除对应的server及server下表及表下字段的接口
 	 * @author liuyunfeng
 	 */
-	@ApiOperation(value="删除数据资源服务器及其下表、表字段", notes="根据数据资源服务器Id删除该服务器及其下表、表字段")
+	@ApiOperation(value = "删除数据资源服务器及其下表、表字段", notes = "根据数据资源服务器Id删除该服务器及其下表、表字段")
 	@RequestMapping(value = "/server/delete", method = { RequestMethod.POST })
 	@ResponseBody
 	public String delete(@RequestBody String serverId, HttpSession session) {
